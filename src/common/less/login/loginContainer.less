@@ -1,0 +1,350 @@
+@width:420px;
+@height:410px;
+.loginContainer {
+  z-index:100;
+  width:100%;
+  height:100%;
+  position:absolute;
+  top: 0;
+   .topImage {
+       position: absolute;
+       top: 113px;
+       left: calc(~"50vw - "159px);
+   }
+
+   //验证码登录
+    .mem_Content {
+        background: #fff;
+        position:absolute;
+        top:220px;
+        left:calc(~"50% - "@width/2);
+        width:@width;
+        height:@height;
+        box-sizing:border-box;
+        .mem_title {
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            background-color: #f6f6f6;
+            top: 0;
+            left: 0;
+        }
+        .mem_formContainer {
+          padding-top: 35px;
+          padding-left: 50px;
+          padding-right: 50px;
+          .mem_toastMsg {
+            width: 320px;
+            height: 12px;
+            font-family: MicrosoftYaHei;
+            font-size: 12px;
+            font-weight: normal;
+            font-stretch: normal;
+//          line-height: 30px;
+            letter-spacing: 0px;
+            color: #999999;
+            text-align: left;
+          }
+          .mem_phoneItem {
+              width: 320px;
+              height: 40px;
+              margin-top: 16px;
+             input {
+                  box-sizing: border-box;
+                  width: 320px;
+                  height: 40px;
+                  line-height:40px;
+                  border: solid 1px #ddd;
+                  padding: 0 16px;
+                  font-size:14px;
+              }
+          }
+          .mem_verify {
+              width: 320px;
+              height: 40px;
+              margin-top: 20px;
+              input {
+                  box-sizing: border-box;
+                  width: 188px;
+                  height: 40px;
+                  line-height:40px;
+                  display:inline-block;
+                  border: solid 1px #dddddd;
+                  font-size: 14px;
+                  padding:0 16px;
+//            padding: 5px;
+                }
+              .mem_sendCode {
+                  margin-left:7px;
+                  width: 120px;
+                  height: 40px;
+                  line-height:40px;
+                  box-sizing: border-box;
+                  text-align: center;
+                  color: #999;
+                  border: none;
+                  background-color:#fff;
+                  border:1px solid rgba(221, 221, 221, 1);
+                  cursor: pointer;
+                  &:focus{
+                    outline:none;
+                  }
+              }
+          }
+          .mem_errorMsg {
+              float:left;
+              width: 220px;
+              height: 13px;
+              font-size: 13px;
+              font-weight: normal;
+              font-stretch: normal;
+              color: #fc4343;
+              margin-top: 17px;
+              text-align: left;
+          }
+          .mem_loginBtn {
+              width: 320px;
+              height: 40px;
+              margin-top: 20px;
+              button {
+                  width: 280px;
+                  height: 40px;
+                  line-height:40px;
+                  font-size: 16px;
+                  background-color: #F0871E;
+                  color:#fff;
+                  outline: none;
+                  border:0;
+                  border-radius: 20px;
+                  cursor: pointer;
+              }
+          }
+          .mem_agreement {
+              text-align: right;
+              width: 320px;
+              height: 13px;
+              margin-top: 17px;
+              input {
+                  width: 12px;
+                  height: 12px;
+                  float: left;
+              }
+              .readAndAgree {
+                font-family: MicrosoftYaHei;
+                font-size: 13px;
+                font-weight: normal;
+                font-stretch: normal;
+                color: #999999;
+              }
+              & > a {
+                  font-family: MicrosoftYaHei;
+                  font-size: 13px;
+                  font-weight: normal;
+                  letter-spacing: 1px;
+                  color: #f0871e;
+              }
+              .mem_pwdLogin {
+                  width: 85px;
+                  height: 13px;
+                  text-align: right;
+                  color: #999999;
+                  font-size: 13px;
+                  cursor:pointer;
+              }
+          }
+          .noCount {
+            width: 320px;
+            height: 13px;
+            padding: 0;
+            margin-top: 16px;
+            text-align: right;
+             & > a {
+                width: 30px;
+                height: 13px;
+                font-family: MicrosoftYaHei;
+                font-size: 13px;
+                font-weight: normal;
+                letter-spacing: 1px;
+                color: #f0871e;
+                margin-right: 0;
+            }
+        }
+        .noCount .nomsg {
+            width: 97px;
+            height: 13px;
+            font-family: MicrosoftYaHei;
+            font-size: 13px;
+            font-weight: normal;
+            font-stretch: normal;
+            line-height: 30px;
+            letter-spacing: 1px;
+            color: #999999;
+        }
+        }
+    }
+
+
+
+  .content {
+    background: #fff;
+    position:absolute;
+    top:220px;
+    left:calc(~"50% - "@width/2);
+    width:@width;
+    height:@height;
+    box-sizing:border-box;
+    .title {
+        width: 100%;
+        height: 50px;
+        line-height: 50px;
+        background-color: #f6f6f6;
+        top: 0;
+        left: 0;
+    }
+    .formContainer{
+      padding-top: 39px;
+      padding-left: 50px;
+      padding-right: 50px;
+      .pwditem{
+        position:relative;
+        i{
+          position:absolute;
+          top:32px;
+          right:10px;
+          cursor: pointer;
+        }
+      }
+      .phoneiItem input, .pwditem input {
+          box-sizing: border-box;
+          padding:0 16px;
+          line-height:40px;
+          font-size: 14px;
+          width: 320px;
+          height: 40px;
+          border: solid 1px #ddd;
+      }
+      .pwditem input {
+          margin-top: 20px;
+          padding-right:25px;
+      }
+      .verifyItem {
+          width: 320px;
+          height: 40px;
+          padding: 20px 0 0 0;
+          margin: 0;
+      }
+      .verifyItem input {
+            font-size:13px;
+            width: 217px;
+            box-sizing: border-box;
+            height: 40px;
+            line-height:40px;
+            padding: 0 16px;
+            border: solid 1px #ddd;
+            float:left;
+        }
+        .verifyItem .imgContainer {
+              width: 100px;
+              height: 40px;
+          }
+        .showErrorMsg {
+            width: 100%;
+            height: 12px;
+            font-size:12px;
+            margin:10px 0;
+            background-color: #fff;
+            color:red;
+            text-align: left;
+        }
+
+        .pwdItem {
+            width: 100%;
+            height: 13px;
+            padding: 0;
+        }
+        .pwdItem .forgetPwd {
+            cursor:pointer;
+            width: 80px;
+            height: 13px;
+            font-family: MicrosoftYaHei;
+            font-size: 13px;
+            font-weight: normal;
+            font-stretch: normal;
+            line-height: 30px;
+            letter-spacing: 1px;
+            color: #999999;
+            float: left;
+        }
+        .pwdItem .msgLogin {
+            right: 0;
+            width: 84px;
+            height: 13px;
+            font-family: MicrosoftYaHei;
+            font-size: 13px;
+            font-weight: normal;
+            font-stretch: normal;
+            line-height: 30px;
+            letter-spacing: 1px;
+            color: #999999;
+            float: right;
+            cursor:pointer;
+        }
+        .loginBtn {
+            width: 100%;
+            height: 40px;
+            margin-top: 19px;
+        }
+        .loginBtn button {
+            width: 280px;
+            height: 100%;
+            background-color: #f0871e;
+            border-radius: 20px;
+            font-size: 16px;
+            line-height: 30px;
+            letter-spacing: 1px;
+            color: #ffffff;
+            border:none;
+            cursor: pointer;
+            &:focus{
+              border:none;
+              outline: none;
+            }
+        }
+        .noCount {
+            width: 320px;
+            height: 13px;
+            padding: 0;
+            margin-top: 16px;
+            text-align: right;
+             & > a {
+                width: 30px;
+                height: 13px;
+                font-family: MicrosoftYaHei;
+                font-size: 13px;
+                font-weight: normal;
+                letter-spacing: 1px;
+                color: #f0871e;
+                margin-right: 0;
+            }
+        }
+        .noCount .nomsg {
+            width: 97px;
+            height: 13px;
+            font-family: MicrosoftYaHei;
+            font-size: 13px;
+            font-weight: normal;
+            font-stretch: normal;
+            line-height: 30px;
+            letter-spacing: 1px;
+            color: #999999;
+        }
+    }
+
+
+
+
+  }
+}
+.right {
+  float: right;
+}
