@@ -7,17 +7,51 @@ import VueRouter from 'vue-router';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import App from './App'
-import home from './page/home/home.vue'
+const home = () => import('./page/home/home.vue')
+const login = () => import('./page/login/login.vue')
+const register = () => import('./page/register/register.vue')
+const resetPwd = () => import('./page/resetPwd/resetPwd.vue')
+const pwdsuc = () => import('./page/pwdsuc/pwdsuc.vue')
+const detail = () => import('./page/detail/detail.vue')
+const center = () => import('./page/center.vue')
+/*import home from './page/home/home.vue'
 import login from './page/login/login.vue'
 import register from './page/register/register.vue'
 import resetPwd from './page/resetPwd/resetPwd.vue'
 import pwdsuc from './page/pwdsuc/pwdsuc.vue'
 import detail from './page/detail/detail.vue'
-import center from './page/center.vue'
+import center from './page/center.vue'*/
 import util from './common/js/index.js'
 import vuescroll from 'vue-scroll'
 import 'babel-polyfill'
 Vue.prototype.$util = util
+Vue.prototype.goLogin = function (code) {
+  let box =document.getElementsByClassName('el-message-box__wrapper');
+  let flag = false;
+  if (box && box.length>0){
+    for (let j = 0;j<box.length;j++){
+      if(box[j].style.display!='none'){
+        flag = true;
+        return false;
+      }
+    }
+  }
+  if(flag){
+    return;
+  }
+  let me = this;
+  let str = '会话失效,请重新登录';
+  if(code == '10000005'){
+    str = '您的账号已被禁用';
+  }
+  if(code == '10000011'){
+    str = '您的权限已调整,请重新登录';
+  }
+  sessionStorage.removeItem('INFO');
+  sessionStorage.removeItem('productList');
+  this.$message({message:str,type:'error',duration:2000});
+  this.$router.push('login');
+}
 Vue.use(vuescroll)
 // 引用API文件
 import api from './api/index.js'

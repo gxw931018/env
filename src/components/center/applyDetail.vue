@@ -114,11 +114,11 @@
 
 <script>
   export default {
-    props:['detail'],
+    props:['detail','tip','first'],
     data() {
       return {
         active:0,
-        activeName: 'first',
+        activeName:'first'
       };
     },
     methods: {
@@ -128,6 +128,12 @@
     mounted () {
     },
     created () {
+      this.activeName='first';
+    },
+    watch:{
+      'first': function (newVal,oldVal) {
+        this.activeName = 'first';
+      }
     }
   }
 </script>
@@ -226,6 +232,9 @@
         background-color:#f0871e;
       }
       .status{
+        .el-steps{
+          height:60px;
+        }
         .title{
           border-bottom:1px solid #ddd;
           text-align:left;

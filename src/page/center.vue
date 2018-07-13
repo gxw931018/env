@@ -93,6 +93,10 @@
         location.href=location.href.split('?')[0];
       },
       getAuthDetailByIdErr (res){
+        if( this.$util.goLogin(res.returnCode)){
+          this.goLogin();
+          return;
+        }
         this.$message({
           message: res.returnMessage,
           type: 'error',
@@ -114,6 +118,10 @@
         this.authInfo = data;
       },
       getAuthDetailErr (res){
+        if( this.$util.goLogin(res.returnCode)){
+          this.goLogin();
+          return;
+        }
         this.$message({
           message: res.returnMessage,
           type: 'error',
@@ -160,6 +168,10 @@
         this.productList = data;
       },
       productErr(data) {
+        if( this.$util.goLogin(res.returnCode)){
+          this.goLogin();
+          return;
+        }
         console.log(data);
       },
     }

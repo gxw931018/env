@@ -64,7 +64,7 @@
           </div>
           <div class='tableContent'>
             <div class='tabItem' v-for='(data,k) in applyList' :key='k'>
-              <div class='header'>
+              <div class='head'>
                 <span class='num'>业务序列号:{{data.apply.serialNum}}</span>
                 <span class='time'>申请时间:{{data.apply.applyTime}}</span>
               </div>
@@ -84,13 +84,14 @@
               </div>
             </div>
           </div>
+          <div class='tip'><span>{{tip}}</span></div>
         </div>
         <div class='detail' v-show='showApplyDetail'>
           <div class='back'>
             <span @click='back'>返回贷款申请列表>></span>
           </div>
           <div class='tabs'>
-            <v-detail :detail='detail'></v-detail>
+            <v-detail :detail='detail' :tip='tip' :first='first'></v-detail>
           </div>
         </div>
       </div>
@@ -120,6 +121,8 @@
         loanApplication=true;
       }
       return {
+        first:false,
+        tip:'滚动加载更多',
         showApplyDetail:false,
         pageNum:1,
         pageSize:10,
@@ -198,21 +201,36 @@
         console.log(this.modifyPwd);
       },
       getUserApplyList () {
+        if (this.pageNum == 1){
+          this.applyList = [];
+        }
         let data = {
           "service":"applyService",
           "method":"getUserApplyList",
-          "data":{}
+          "data":{
+            pageSize:this.pageSize,
+            pageNum:this.pageNum
+          }
         }
         this.$api.post('',data,this.getUserApplyListSuc,this.getUserApplyListErr,this.headers);
       },
       getUserApplyListSuc (data) {
         let me=this;
+        if(data.length == 0){
+          this.tip='没有更多了';
+          return;
+        }
         data.map((item,k)=>{
           item.operate = me.operate[item.apply.statusCode];
+          me.applyList.push(item);
         });
-        this.applyList = data;
       },
       getUserApplyListErr (res) {
+        if( this.$util.goLogin(res.returnCode)){
+          this.goLogin();
+          return;
+        }
+        this.tip='加载失败';
         console.log(res);
       },
       operation (data,operate) {
@@ -254,9 +272,14 @@
           type: 'success',
           duration:2000
         });
+        this.pageNum = 1;
         this.getUserApplyList();
       },
       cancelErr (res) {
+        if( this.$util.goLogin(res.returnCode)){
+          this.goLogin();
+          return;
+        }
         this.$message({
           message: res.returnMessage,
           type: 'error',
@@ -302,6 +325,7 @@
             break;
         }
         this.detail.active = active;
+        this.first = true;
         let applySerial = data.apply.serialNum;
         let history = {
           "service": "applyService",
@@ -359,6 +383,10 @@
         this.detail.credit = data;
       },
       getCreditErr (res){
+        if( this.$util.goLogin(res.returnCode)){
+          this.goLogin();
+          return;
+        }
         console.log(res);
       },
       getHistorySuc (data) {
@@ -366,6 +394,10 @@
         this.detail.trackData = data;
       },
       getHistoryErr (res) {
+        if( this.$util.goLogin(res.returnCode)){
+          this.goLogin();
+          return;
+        }
         console.log(res);
       },
       getBaseSuc (data) {
@@ -388,17 +420,33 @@
         this.detail.productProfile = data.productProfile;
       },
       getBaseErr (res) {
+        if( this.$util.goLogin(res.returnCode)){
+          this.goLogin();
+          return;
+        }
         console.log(res)
       },
       back () {
         this.showApplyDetail=false;
+        this.first = false;
         this.detail.trackData=[];
         this.detail.productProfile={};
         this.detail.apply={};;
         this.detail.credit={};
       },
       getMore ($event) {
-        console.log($event.target);
+        if(this.tip=='没有更多了'){
+          return;
+        }
+        let dom = $event.target;
+        let scrollHeight=dom.scrollHeight,clientHeight=dom.clientHeight,scrollTop=dom.scrollTop;
+        if(scrollHeight == clientHeight+scrollTop){
+          this.pageNum++;
+          this.tip = '正在加载中,请稍候';
+          this.getUserApplyList();
+          return;
+        }
+        this.tip = '下拉加载更多';
       }
     },
     components: {
@@ -638,7 +686,7 @@
               div{
                 box-sizing:border-box;
               }
-              .header{
+              .head{
                 text-align:left;
                 line-height:40px;
                 height:40px;
@@ -705,6 +753,11 @@
                 }
               }
             }
+          }
+          .tip{
+            height:80px;
+            line-height:40px;
+            font-size:14px;
           }
         }
       }
