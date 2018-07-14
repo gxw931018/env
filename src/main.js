@@ -18,8 +18,7 @@ const center = () => import('./page/center.vue')
 import login from './page/login/login.vue'
 import register from './page/register/register.vue'
 import resetPwd from './page/resetPwd/resetPwd.vue'
-import pwdsuc from './page/pwdsuc/pwdsuc.vue'
-import detail from './page/detail/detail.vue'*/
+import pwdsuc from './page/pwdsuc/pwdsuc.vue'*/
 import util from './common/js/index.js'
 import vuescroll from 'vue-scroll'
 import 'babel-polyfill'
