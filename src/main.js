@@ -14,17 +14,6 @@ const resetPwd = () => import('./page/resetPwd/resetPwd.vue')
 const pwdsuc = () => import('./page/pwdsuc/pwdsuc.vue')
 const detail = () => import('./page/detail/detail.vue')
 const center = () => import('./page/center.vue')
-/*import home from './page/home/home.vue'
-import login from './page/login/login.vue'
-import register from './page/register/register.vue'
-import resetPwd from './page/resetPwd/resetPwd.vue'
-<<<<<<< HEAD
-import pwdsuc from './page/pwdsuc/pwdsuc.vue'
-import detail from './page/detail/detail.vue'
-import center from './page/center.vue'*/
-=======
-import pwdsuc from './page/pwdsuc/pwdsuc.vue'*/
->>>>>>> d386a8a510eac21a8612d5060ee701a843b015bf
 import util from './common/js/index.js'
 import vuescroll from 'vue-scroll'
 import 'babel-polyfill'
