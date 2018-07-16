@@ -1,9 +1,17 @@
 // 配置API接口地址
+<<<<<<< HEAD
 /*var root = '';
 var hostName = location.hostname;
 var tag = contain(hostName,'192.168')|| contain(hostName,'localhost')||contain(hostName,'127.0');
 root = root + (tag ? 'http://192.168.100.86:8081':location.host);*/
 var root = '/gateway/json';
+=======
+var root = '';
+var hostName = location.hostname;
+var tag = contain(hostName,'192.168')|| contain(hostName,'localhost')||contain(hostName,'127.0');
+root = root + (tag ? 'http://192.168.100.86:8081':location.host);
+root = root + '/gateway/json';
+>>>>>>> d386a8a510eac21a8612d5060ee701a843b015bf
 // 引用axios
 var axios = require('axios')
 // 判断是否包含
