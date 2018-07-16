@@ -11,13 +11,8 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-<<<<<<< HEAD
       '/gateway/json': {
         target: 'http://192.168.100.27:8081', // 你接口的域名
-=======
-      '/api/**': {
-        target: 'https://cnodejs.org', // 你接口的域名
->>>>>>> d386a8a510eac21a8612d5060ee701a843b015bf
         secure: false,
         changeOrigin: false,
       }
