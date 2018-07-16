@@ -1,18 +1,18 @@
--<template>
+<template>
   <div class="loginContainer">
     <input style="display:none" type="text" name="loginName"/>
     <input style="display:none" type="password" name="password"/>
   	<div class="topImage">
       <img src="./protect.png">
 	  </div>
-    <div class="content" v-if="contents">
+    <div class="content" v-if="contents" @keyup.enter="submit">
       <div class="title">会员登录</div>
       <div class="formContainer">
         <div class="phoneiItem">
-          <input type="text" placeholder="请输入有效手机号" name="loginName" autocomplete="off" @focus="removeTip('phone')" @keyup='nameReplace($event)' maxlength="11" :class='{errorinput:input.phone}'/>
+          <input type="text" placeholder="请输入有效手机号" name="loginName" autocomplete="off" @focus="removeTip('phone')" @keyup='nameReplace($event)' maxlength="11" :class='{errorinput:input.phone}' v-model='form.loginName'/>
         </div>
         <div class="pwditem">
-          <input :type="type" placeholder="请输入密码" name="password" autocomplete="off" @focus="removeTip('pwd')" @keyup="pwdReplace($event)" maxlength="20" :class='{errorinput:input.pwd}'/>
+          <input :type="type" placeholder="请输入密码" name="password" autocomplete="off" @focus="removeTip('pwd')" @keyup="pwdReplace($event)" maxlength="20" :class='{errorinput:input.pwd}' v-model='form.password'/>
           <i class='iconfont' @click='changeType' :class='{"icon-eye":type!=="text","icon-see":type=="text"}'></i>
         </div>
         <div class="verifyItem">
@@ -36,7 +36,7 @@
 
     </div>
 
-  	<div class="mem_Content" v-if="mem_Contents">
+  	<div class="mem_Content" v-if="mem_Contents" @keyup.enter="mem_submit">
   		<div class="mem_title">会员登录</div>
       	<input style="display:none" type="text" name="loginName"/>
       	<input style="display:none" type="password" name="password"/>
@@ -143,7 +143,7 @@
       nameReplace ($event) {
         let dom = $event.target;
         this.replaceAndSetPos(dom,/[^\d]/g,'');
-        this.form.loginName = dom.value;
+        //this.form.loginName = dom.value;
       },
       phoneNameReplace ($event) {
         let dom = $event.target;
@@ -153,7 +153,7 @@
       pwdReplace ($event) {
         let dom = $event.target;
         this.replaceAndSetPos(dom,/[\W]/g,'');
-        this.form.password = dom.value;
+        //this.form.password = dom.value;
       },
       getViliImg () {
         let data = {

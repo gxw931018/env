@@ -1,10 +1,15 @@
 // 配置API接口地址
-var root = '';
-var tag = location.hostname.indexOf('192.168')!==-1 || location.hostname.indexOf('localhost')!==-1;
-root = root + tag ? 'http://192.168.100.86:8081':location.host;
-root = root + '/gateway/json';
+/*var root = '';
+var hostName = location.hostname;
+var tag = contain(hostName,'192.168')|| contain(hostName,'localhost')||contain(hostName,'127.0');
+root = root + (tag ? 'http://192.168.100.86:8081':location.host);*/
+var root = '/gateway/json';
 // 引用axios
 var axios = require('axios')
+// 判断是否包含
+function contain (str,constr) {
+  return str.indexOf(constr)!==-1;
+}
 // 自定义判断元素类型JS
 function toType (obj) {
   return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()

@@ -101,7 +101,12 @@ export default {
     }
     return arrData;
   },
-
+  goLogin (code) {
+    let str = '00000007_'+'00000008_'+'00000009_'+'00000010_'+'00000011_'+'00000012_'+'00000013_'+'00000014_'+'00000015_'+'00000016_'+'10000005_'+'10000011_';
+    if(str.indexOf(code)!=-1){
+      return true;
+    }
+  },
   //时间戳转化成时间格式
   timeFormat(timestamp){
     function add0(m){return m<10?'0'+m:m }

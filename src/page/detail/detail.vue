@@ -12,7 +12,7 @@
       </div>
     </div>
     <div v-show='isApply' class='applyProduct'>
-      <div class="product" :style="product_two">
+      <div class="product" :style="product_two" v-if='!saveSuccess&&!applySuccess'>
         <div class="product-content">
           <div class="product-right-odd">
             <img :src="logo" alt="" width="440" height="252">
@@ -25,7 +25,7 @@
             <p class="line"></p>
             <div class="product-info">{{product.indexTitle}}</div>
             <div class="product-item">
-              <span class="rate">年利率：{{product.rateFrom}}%-{{product.rateTo}}%</span>
+              <span class="rate">年利率：{{product.rateFrom}} %-{{product.rateTo}}%</span>
               <span class="limit">最高额度：{{product.maximum}}万</span>
               <span class="due-time">还款期限：{{product.repaymentTerm}}个月</span>
             </div>
@@ -39,13 +39,14 @@
           </div>
         </div>
       </div>
-      <div class='applyInfo'>
+      <div class='applyInfo' v-if='!saveSuccess&&!applySuccess'>
+        <div></div>
         <p>申请信息</p>
       </div>
-      <div class='form'>
+      <div class='form' v-if='!saveSuccess&&!applySuccess'>
         <div class="formItem">
           <div class="left label">
-            <span class='read'>*</span><span>公司名称</span>
+            <span class='read'>*</span><span>公司名称:</span>
           </div>
           <div class="right input">
             <input type="text" disabled="disabled" v-model='form.enterpriseName'>
@@ -53,7 +54,7 @@
         </div>
         <div class="formItem">
           <div class="left label">
-            <span class='read'>*</span><span>纳税人识别号</span>
+            <span class='read'>*</span><span>纳税人识别号:</span>
           </div>
           <div class="right input">
             <input type="text" disabled="disabled" v-model='form.nsrsbh'>
@@ -61,7 +62,7 @@
         </div>
         <div class="formItem">
           <div class="left label">
-            <span class='read'>*</span><span>申请人类型</span>
+            <span class='read'>*</span><span>申请人类型:</span>
           </div>
           <div class="right input">
             <el-select v-model="form.proposerType" placeholder="请选择">
@@ -76,7 +77,7 @@
         </div>
         <div class="formItem">
           <div class="left label">
-            <span class='read'>*</span><span>申请人姓名</span>
+            <span class='read'>*</span><span>申请人姓名:</span>
           </div>
           <div class="right input">
             <input type="text" maxlength="10" placeholder="请输入申请人姓名"  @compositionstart="start" @compositionend="end" @keyup='nameReplace' @focus='removeTip("proposerName")' v-model='form.proposerName'>
@@ -85,7 +86,7 @@
         </div>
         <div class="formItem">
           <div class="left label">
-            <span class='read'>*</span><span>申请人身份证号</span>
+            <span class='read'>*</span><span>申请人身份证号:</span>
           </div>
           <div class="right input">
             <input type="text" maxlength="18" placeholder="请输入申请人身份证号" @keyup='idReplace' @focus='removeTip("proposerId")' v-model='form.proposerId'>
@@ -94,7 +95,7 @@
         </div>
         <div class="formItem">
           <div class="left label">
-            <span class='read'>*</span><span>申请人手机号码</span>
+            <span class='read'>*</span><span>申请人手机号码:</span>
           </div>
           <div class="right input">
             <input type="text" maxlength=11 placeholder="请输入申请人手机号码" @keyup='phoneReplace' @focus='removeTip("proposerTelphone")' v-model='form.proposerTelphone'>
@@ -103,7 +104,7 @@
         </div>
         <div class="formItem">
           <div class="left label">
-            <span class='read'>*</span><span>申请贷款额度</span>
+            <span class='read'>*</span><span>申请贷款额度:</span>
           </div>
           <div class="right input">
             <input type="text" maxlength=5 placeholder="请输入申请贷款额度" class='wy' @keyup='edReplace($event)' @focus='removeTip("loanLimit")' v-model='form.loanLimit'>
@@ -112,7 +113,7 @@
         </div>
         <div class="formItem">
           <div class="left label">
-            <span class='read'>*</span><span>申请贷款期限</span>
+            <span class='read'>*</span><span>申请贷款期限:</span>
           </div>
           <div class="right input">
             <input type="text" maxlength=3 placeholder="请输入申请贷款期限" class='gy' @keyup='timeReplace' @focus='removeTip("loanTerm")' v-model='form.loanTerm'>
@@ -121,7 +122,22 @@
         </div>
         <div class="formItem">
           <div class="left label">
-            <span class='read'>*</span><span>他行贷款金额</span>
+            <span>营销推荐代码:</span>
+          </div>
+          <div class="right input">
+            <input type="text" maxlength=20 @keyup='codeReplace'  @focus='removeTip("marketingCode")' v-model='form.marketingCode'>
+            <span v-if='error.marketingCode' class='red'>{{error.marketingCodeTip}}</span>
+          </div>
+        </div>
+      </div>
+      <div class='applyInfo' v-if='!saveSuccess&&!applySuccess'>
+        <div></div>
+        <p>征信数据</p>
+      </div>
+      <div class='form' v-if='!saveSuccess&&!applySuccess'>
+        <div class="formItem">
+          <div class="left label">
+            <span class='read'>*</span><span>他行贷款金额:</span>
           </div>
           <div class="right input">
             <input type="text" maxlength=8 placeholder="请输入他行贷款金额" class='wy' @keyup='dkReplace($event,"otherBankLoan")' @focus='removeTip("otherBankLoan")' v-model='form.otherBankLoan'>
@@ -130,7 +146,7 @@
         </div>
         <div class="formItem">
           <div class="left label">
-            <span class='read'>*</span><span>我行贷款金额</span>
+            <span class='read'>*</span><span>我行贷款金额:</span>
           </div>
           <div class="right input">
             <input type="text" maxlength=8 placeholder="请输入我行贷款金额" class='wy' @keyup='dkReplace($event,"ourBankLoan")' @focus='removeTip("ourBankLoan")' v-model='form.ourBankLoan'>
@@ -139,7 +155,7 @@
         </div>
         <div class="formItem">
           <div class="left label">
-            <span class='read'>*</span><span>对外担保余额</span>
+            <span class='read'>*</span><span>对外担保余额:</span>
           </div>
           <div class="right input">
             <input type="text" maxlength=8 placeholder="请输入对外担保余额" class='wy' @keyup='dkReplace($event,"externalGuarantee")' @focus='removeTip("externalGuarantee")' v-model='form.externalGuarantee'>
@@ -148,7 +164,7 @@
         </div>
         <div class="formItem">
           <div class="left label">
-            <span class='read'>*</span><span>关联企业现有贷款余额</span>
+            <span class='read'>*</span><span>关联企业现有贷款余额:</span>
           </div>
           <div class="right input">
             <input type="text" maxlength=8 placeholder="请输入关联企业现有贷款余额" class='wy' @keyup='dkReplace($event,"affiliatedEnterpriseLoan")' @focus='removeTip("affiliatedEnterpriseLoan")' v-model='form.affiliatedEnterpriseLoan'>
@@ -157,7 +173,7 @@
         </div>
         <div class="formItem">
           <div class="left label">
-            <span class='read'>*</span><span>个人经营性贷款余额</span>
+            <span class='read'>*</span><span>个人经营性贷款余额:</span>
           </div>
           <div class="right input">
             <input type="text" maxlength=8 placeholder="请输入个人经营性贷款余额" class='wy' @keyup='dkReplace($event,"personalManagementLoan")' @focus='removeTip("personalManagementLoan")' v-model='form.personalManagementLoan'>
@@ -165,21 +181,36 @@
             <span v-if='tip.personalManagementLoan'>{{tip.personalManagementLoanTip}}</span>
           </div>
         </div>
-        <div class="formItem">
-          <div class="left label">
-            <span>营销推荐代码</span>
+      </div>
+      <div class="item" v-if='!saveSuccess&&!applySuccess'>
+        <el-checkbox v-model="checked"></el-checkbox><span class="read">阅读并接受</span><span class="orange pointer" @click="openxy">《诚税融用户协议》</span>
+      </div>
+      <div class='item btn' v-if='!saveSuccess&&!applySuccess'>
+        <button @click='submit' :disabled='!checked'>提&nbsp;&nbsp;交</button>
+        <button @click='save'>资料保存</button>
+      </div>
+      <div class='success' v-if='saveSuccess||applySuccess'>
+        <div class='apply' v-if='applySuccess'>
+          <div class='first'>
+            <span class="el-icon-circle-check icon-large"></span><span>申请资料提交成功</span>
           </div>
-          <div class="right input">
-            <input type="text" maxlength=20 @keyup='codeReplace'  @focus='removeTip("marketingCode")' v-model='form.marketingCode'>
-            <span v-if='error.marketingCode' class='red'>{{error.marketingCodeTip}}</span>
+          <div class='sec'>
+            <span>{{time}}秒后自动转到贷款申请页面,查看贷款申请进度;</span><span class='center' @click='goCenter'>立即进入贷款申请</span><span class='home' @click='goHome'>返回网站首页</span>
+          </div>
+          <div class='th'>
+            <span>{{product.name}}-{{product.provider}}</span>
+          </div>
+          <div class='applyDetail'>
+            <span>申请额度：{{form.loanLimit}}</span><span>申请贷款期限：{{form.loanTerm}}</span>
           </div>
         </div>
-        <div class="item">
-          <el-checkbox v-model="checked"></el-checkbox><span class="read">阅读并接受</span><span class="orange pointer" @click="openxy">《诚税融用户协议》</span>
-        </div>
-        <div class='item'>
-          <button @click='submit' :disabled='!checked'>提&nbsp;&nbsp;交</button>
-          <button @click='save'>资料保存</button>
+        <div class='saveInfo' v-if='saveSuccess'>
+          <div class='first'>
+            <span class="el-icon-circle-check icon-large"></span><span>贷款申请资料保存成功,请稍候完善</span>
+          </div>
+          <div class='sec'>
+            <span>{{time}}秒后自动转到贷款申请页面</span><span class='center' @click='goCenter'>立即进入贷款申请</span><span class='home' @click='goHome'>返回网站首页</span>
+          </div>
         </div>
       </div>
     </div>
@@ -203,13 +234,19 @@
   export default {
     name: 'App',
     data() {
-      let enterpriseName='',nsrsbh='';
+      let enterpriseName='',nsrsbh='',userId='',token='';
       let INFO = JSON.parse(sessionStorage.getItem("INFO"));
       if(!(INFO == null || !INFO.authed || INFO.authed=='0')){
         enterpriseName = INFO.enterpriseName;
         nsrsbh = INFO.sh;
+        userId = INFO.userId;
+        token = INFO.token;
       }
       return {
+        interval:null,
+        saveSuccess:false,
+        applySuccess:false,
+        time:5,
         checked:false,
         pos:'b',
         product_two: {
@@ -246,6 +283,7 @@
         logo:'',
         choseCity:'',
         city:{},
+        currentCity:{},
         productList:{},
         repaymentStyle:{1:"先息后本",2:'等额本息',3:'等额本金',4:'一次性还本付息',5:'等本还息',6:'随借随还'},
         guarantee:{1:'信用',2:'保证',3:'抵押',4:'质抵',5:'其他'},
@@ -254,11 +292,15 @@
           path: a
         }],
         labelPictureList:[],
-        headers:{client:"1",userId:'',token:''},
+        headers:{
+          client:'1',
+          userId:userId,
+          token:token
+        },
         form:{
           productId:'',
-          enterpriseName:'',
-          nsrsbh:'',
+          enterpriseName:enterpriseName,
+          nsrsbh:nsrsbh,
           proposerName:'',
           proposerType:1,
           proposerId:'',
@@ -333,6 +375,7 @@
       citySuc(data) {
         let code = data.currentCity.regionCode;
         data.choseCity = data.currentCity.regionName;
+        this.currentCity = data.currentCity;
         let arr = [];
         arr.push(data.currentCity);
         data.currentCity=arr;
@@ -348,22 +391,22 @@
         let INFO=JSON.parse(sessionStorage.getItem("INFO"));
         let me = this ;
         if(INFO && INFO.token){
-          let openCity=this.labelList[5].content;
-          if(openCity.indexOf(this.choseCity)<0){
+          if(this.currentCity.regionName!==this.choseCity){
             this.$confirm('您申请的产品不在您所处范围内销售,您可继续申请或切换所在地申请其他产品。我们将会对您的信息进行核实。', '提示', {
               confirmButtonText: '确认',
               confirmButtonClass:'sureBtn',
               cancelButtonText: '取消',
+              cancelButtonClass:'cancelBtn',
               center: true,
               callback: action => {
                 if(action == "confirm"){
-                  me.$router.push('login');
+                  me.isApply = true;
                 }
               }
             });
             return;
           }else if(!INFO.authed||INFO.authed == '0'){
-            /*this.$confirm('您尚未进行爱税宝认证,请认证后再申请。', '提示', {
+            this.$confirm('您尚未进行爱税宝认证,请认证后再申请。', '提示', {
               confirmButtonText: '确认',
               confirmButtonClass:'sureBtn',
               cancelButtonText: '取消',
@@ -375,7 +418,7 @@
                 }
               }
             });
-            return;*/
+            return;
           }
           me.isApply = true;
         }else{
@@ -550,6 +593,7 @@
           return this.error.loanLimit;
         }
         let flag = false;
+        a = String(a);
         let arr = a.split('');
         if(isNaN(arr[0])||parseInt(arr[0])==0){
           flag = true;
@@ -567,13 +611,15 @@
         return this.error.loanLimit;
       },
       checkTime () {
-        if(!this.form.loanTerm||this.form.loanTerm===''){
+        let a = this.form.loanTerm;
+        if(!a||a===''){
           this.error.loanTerm=true;
           this.error.loanTermTip='申请贷款期限不能为空';
           return this.error.loanTerm;
         }
         let flag = false;
-        let arr = this.form.loanTerm.split('');
+        a = String(a);
+        let arr = a.split('');
         if(isNaN(arr[0])||parseInt(arr[0])==0){
           flag = true;
         }
@@ -596,6 +642,7 @@
           this.error[tag+'Tip'] = this.err[tag]+'不能为空';
           return this.error[tag];
         }
+        a = String(a);
         let flag = false;
         let arr = a.split('');
         let count = 0,index=0,len=arr.length;
@@ -621,7 +668,7 @@
             return false;
           }
         });
-        if(len-index>3||parInt(a)>10000){
+        if(len-index>3||parseInt(a)>10000){
           flag = true;
         }
         if(flag){
@@ -669,16 +716,24 @@
         this.$api.post('',data,this.applySuc,this.applyErr,this.headers);
       },
       applySuc(data){
-        console.log(data);
+        this.applySuccess = true;
+        this.timer();
       },
       applyErr(res){
-        console.log(data);
+        if( this.$util.goLogin(res.returnCode)){
+          this.goLogin();
+          return;
+        }
       },
       saveSuc (data) {
-        console.log(data);
+        this.saveSuccess = true;
+        this.timer();
       },
       saveErr (res) {
-        console.log(res);
+        if( this.$util.goLogin(res.returnCode)){
+          this.goLogin();
+          return;
+        }
       },
       getApplyInfoSuc (data) {
         this.form.productId = data.productId;
@@ -698,7 +753,32 @@
         this.form.marketingCode = data.marketingCode;
       },
       getApplyInfoErr (res) {
-        console.log(res);
+        if( this.$util.goLogin(res.returnCode)){
+          this.goLogin();
+          return;
+        }
+      },
+      timer () {
+        let time = 5;
+        this.time = time;
+        let me = this;
+        this.interval = setInterval(()=>{
+          me.time--;
+          if(me.time<=0){
+            //clearInterval(me.interval);
+            me.goCenter();
+          }
+        },1000);
+
+      },
+      goHome () {
+        this.$router.push({name:'home'});
+      },
+      goCenter () {
+        if(this.interval){
+          clearInterval(this.interval);
+        }
+        this.$router.push({name:'center', params:{city:this.city,productList:this.productList,choseCity:this.choseCity},query:{dk:true}})
       }
     },
     created () {
@@ -729,6 +809,7 @@
     watch: {
       '$route' (to, from) {
         this.product_id=this.$route.query.product_id;
+        this.form.productId=this.$route.query.product_id;
         this.getProductDetail();
       }
     }
@@ -815,11 +896,10 @@
   .pdetail{
     .footer{
       padding-top:20px;
-      background-color:rgba(246, 246, 246, 1);
-      margin-top:60px;
+      background-color:#fff;
     }
     .copyright{
-      background-color:rgba(246, 246, 246, 1);
+      background-color:#fff;
     }
   }
   .el-message-box__btns{
@@ -830,17 +910,34 @@
         background: rgb(240, 130, 30) !important;
         border-color: rgb(240, 130, 30) !important;
       }
+      &.cancelBtn{
+        background-color:#fff;
+      }
     }
   }
   .applyProduct{
     margin-top:80px;
+    background-color: rgba(247, 245, 245, 1);
     .applyInfo{
-      margin-top:30px;
+      position:relative;
+      border-bottom:1px solid #ddd;
+      width:1000px;
+      background-color:#fff;
+      margin:30px auto 0 auto;
+      div{
+        width: 2px;
+        height: 20px;
+        background-color: rgba(240, 135, 30, 1);
+        position:absolute;
+        top:15px;
+        left:15px;
+      }
       p{
-        width:1366px;
-        height:40px;
+        width:1000px;
+        height:50px;
+        line-height:50px;
         text-align:left;
-        padding-left:20px;
+        padding-left:35px;
         font-size:20px;
         font-weight:600;
       }
@@ -1029,39 +1126,15 @@
       }
     }
     .form{
+      padding:40px 0;
       overflow:hidden;
-      width:100%;
-      min-width:1366px;
-      .item{
-        text-align:center;
-        width:1000px;
-        margin:0 auto;
-        height:60px;
-        line-height:40px;
-        button{
-          height:40px;
-          width:100px;
-          line-height:40px;
-          background:#fff;
-          border:1px solid #ddd;
-          border-radius:20px;
-          cursor:pointer;
-          margin:10px;
-          &:hover{
-            background:#eee;
-          }
-          &:focus{
-            outline:none;
-          }
-          &:disabled{
-            cursor:not-allowed;
-          }
-        }
-      }
+      margin:0 auto;
+      background-color:#fff;
+      width:1000px;
       .formItem{
         height:40px;
         width:1000px;
-        margin:0 auto;
+        margin:9px auto;
         font-size:14px;
         .left{
           height:100%;
@@ -1105,6 +1178,133 @@
             margin-left:10px;
             &.red{
               color:red;
+            }
+          }
+        }
+      }
+    }
+    .item{
+      text-align:left;
+      width:1000px;
+      margin:0 auto;
+      height:60px;
+      line-height:40px;
+      &.btn{
+        text-align:center;
+        padding-bottom:30px;
+      }
+      span{
+        font-size:13px;
+        &.read{
+          color:#999;
+        }
+      }
+      button{
+        height:40px;
+        width:100px;
+        line-height:40px;
+        background:rgb(240,135,30);
+        border:1px solid #ddd;
+        border-radius:20px;
+        color:#fff;
+        cursor:pointer;
+        margin:10px;
+        &:hover{
+          background:rgb(240,135,30);
+        }
+        &:focus{
+          outline:none;
+        }
+        &:disabled{
+          cursor:not-allowed;
+        }
+      }
+    }
+    .success{
+      height:calc(100vh - 415px);
+      background:#fff;
+      .apply{
+        div{
+          width:1000px;
+          margin:0 auto;
+          text-align:left;
+        }
+        .first{
+          padding-top:30px;
+          span{
+            vertical-align:text-top;
+            height:50px;
+            display:inline-block;
+            line-height:50px;
+            font-size:24px;
+          }
+          .icon-large{
+            font-size:50px;
+            background-color:#fff;
+            color:#f0871e;
+            margin-right:20px;
+          }
+        }
+        .sec{
+          margin-top:30px;
+          span{
+            margin-right:20px;
+            &.center{
+              color:blue;
+              cursor:pointer;
+            }
+            &.home{
+              color:blue;
+              cursor:pointer;
+            }
+          }
+        }
+        .th{
+          margin-top:30px;
+          span{
+            font-weight:600;
+          }
+        }
+        .applyDetail{
+          margin-top:30px;
+          span{
+            margin-right:30px;
+          }
+        }
+      }
+      .saveInfo{
+        div{
+          width:1000px;
+          margin:0 auto;
+          text-align:left;
+        }
+        .first{
+          padding-top:50px;
+          span{
+            vertical-align:text-top;
+            height:50px;
+            display:inline-block;
+            line-height:50px;
+            font-size:24px;
+          }
+          .icon-large{
+            font-size:50px;
+            background-color:#fff;
+            color:#f0871e;
+            margin-right:20px;
+          }
+        }
+        .sec{
+          margin-top:30px;
+          span{
+            margin-right:20px;
+            &.center{
+              color:blue;
+              cursor:pointer;
+            }
+            &.home{
+              color:blue;
+              cursor:pointer;
             }
           }
         }

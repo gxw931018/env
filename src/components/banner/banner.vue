@@ -1,6 +1,6 @@
 <template>
   <div class="swiper-container" :class="{detail:isDetail}">
-    <el-carousel indicator-position="none" height='768px' arrow="never">
+    <el-carousel indicator-position="none" arrow="never">
       <el-carousel-item v-for="(str, index) in listImg" :key="index">
         <div class="swiper-slide" :style="{backgroundImage: 'url(' + str.path + ')' }"></div>
       </el-carousel-item>
@@ -51,13 +51,18 @@
 </script>
 
 <style lang="less">
+  .swiper-container{
+    height:768px;
+  }
+  .el-carousel__container{
+    height:768px;
+  }
   .el-carousel{
     width:100%;
     overflow-y:hidden;
   }
   .swiper-container {
     width: 100%;
-    height: 768px;
     .swiper-wrapper {
       width: 100%;
       height: 100%;

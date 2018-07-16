@@ -11,8 +11,8 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api/**': {
-        target: 'https://cnodejs.org', // 你接口的域名
+      '/gateway/json': {
+        target: 'http://192.168.100.27:8081', // 你接口的域名
         secure: false,
         changeOrigin: false,
       }
@@ -44,10 +44,10 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../dist/index.html'),
+    index: path.resolve(__dirname, '../enterprise/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../dist'),
+    assetsRoot: path.resolve(__dirname, '../enterprise'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 
@@ -55,7 +55,7 @@ module.exports = {
      * Source Maps
      */
 
-    productionSourceMap: true,
+    productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
 
