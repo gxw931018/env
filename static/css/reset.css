@@ -174,4 +174,15 @@ body {
 
 ::-ms-reveal { display: none; }
 input:focus{border-color:#666 !important;outline:none;}
+
+/*special*/
 .errorinput{}
+.el-message-box__headerbtn .el-message-box__close{
+  color:#f0871e !important;
+}
+.el-message-box__headerbtn .el-message-box__close:hover{
+  color:#f0871e !important;
+}
+.el-input__inner{border-radius:0 !important;}
+/*协议*/
+strong span{font-weight:bold;}

@@ -41,7 +41,7 @@
       </div>
       <div class='applyInfo' v-if='!saveSuccess&&!applySuccess'>
         <div></div>
-        <p>申请信息</p>
+        <p>基本信息</p>
       </div>
       <div class='form' v-if='!saveSuccess&&!applySuccess'>
         <div class="formItem">
@@ -80,7 +80,7 @@
             <span class='read'>*</span><span>申请人姓名:</span>
           </div>
           <div class="right input">
-            <input type="text" maxlength="10" placeholder="请输入申请人姓名"  @compositionstart="start" @compositionend="end" @keyup='nameReplace' @focus='removeTip("proposerName")' v-model='form.proposerName'>
+            <input type="text" maxlength="10" placeholder="请输入申请人姓名"  @compositionstart="start" @compositionend="end" @keydown='nameReplace' @keyup='nameReplace' @focus='removeTip("proposerName")' v-model='form.proposerName'>
             <span v-if='error.proposerName' class='red'>{{error.proposerNameTip}}</span>
           </div>
         </div>
@@ -183,7 +183,7 @@
         </div>
       </div>
       <div class="item" v-if='!saveSuccess&&!applySuccess'>
-        <el-checkbox v-model="checked"></el-checkbox><span class="read">阅读并接受</span><span class="orange pointer" @click="openxy">《诚税融用户协议》</span>
+        <el-checkbox v-model="checked"></el-checkbox><span class="read">阅读并接受</span><span class="orange pointer" @click="openxy">《数据授权协议》</span>
       </div>
       <div class='item btn' v-if='!saveSuccess&&!applySuccess'>
         <button @click='submit' :disabled='!checked'>提&nbsp;&nbsp;交</button>
@@ -363,7 +363,9 @@
     },
     methods: {
       start () {this.pos = 'a';},
-      end () {this.pos = 'b';},
+      end () {
+        this.pos = 'b';
+      },
       getCurrentCity () {
         const data = {
           "service":"locationService",
@@ -508,7 +510,7 @@
           confirmButtonText: '已阅读并同意协议',
           callback: action => {
             if(action == "confirm"){
-              me.form.checked=true;
+              me.checked=true;
             }
           }
         });
@@ -646,7 +648,7 @@
         let flag = false;
         let arr = a.split('');
         let count = 0,index=0,len=arr.length;
-        if(isNaN(arr[0])||parseInt(arr[0])==0){
+        if(isNaN(arr[0])){
           flag = true;
         }
         arr.map((item,k)=>{
@@ -668,7 +670,7 @@
             return false;
           }
         });
-        if(len-index>3||parseInt(a)>10000){
+        if((index!=0 && len-index>3)||(len>1&&len-index==1)||parseInt(a)>10000){
           flag = true;
         }
         if(flag){
@@ -765,13 +767,16 @@
         this.interval = setInterval(()=>{
           me.time--;
           if(me.time<=0){
-            //clearInterval(me.interval);
+            clearInterval(me.interval);
             me.goCenter();
           }
         },1000);
 
       },
       goHome () {
+        if(this.interval){
+          clearInterval(this.interval);
+        }
         this.$router.push({name:'home'});
       },
       goCenter () {
@@ -1164,6 +1169,11 @@
             line-height:30px;
             border:1px solid #ddd;
             padding:0 36px 0 6px;
+            &:disabled{
+              background-color:#fff;
+              border:none;
+              padding:0;
+            }
             &.wy{
               background:url(./wy.png) right center no-repeat;
             }

@@ -7,7 +7,7 @@
             <div class='title'>
               <span>申请状态</span>
             </div>
-            <el-steps :space="200" :active='detail.active' align-center process-status='error' finish-status='success'>
+            <el-steps :space="200" :active='detail.active' align-center :process-status='detail.process' finish-status='success'>
               <el-step title="选择产品"></el-step>
               <el-step title="填写申请资料"></el-step>
               <el-step title="平台初审"></el-step>
@@ -50,7 +50,7 @@
               <div class="info">
                 <div class='first'>
                   <span class='even'>产品名称:{{detail.productProfile.name}}</span>
-                  <span class='odd'>所属银行股:{{detail.productProfile.provider}}</span>
+                  <span class='odd'>所属银行:{{detail.productProfile.provider}}</span>
                 </div>
                 <div class='sec'>
                   <span class='even'>最高额度:{{detail.productProfile.maximum}}万元</span>
@@ -99,7 +99,7 @@
                   <span class='odd'>授信期限:{{detail.credit.creditTerm}}个月</span>
                   <span>授信时间:{{detail.credit.creditTime}}</span>
                 </div>
-                <div class='sec'>
+                <div class='sec' v-if='detail.credit.loanedQuota'>
                   <span class='even'>下款金额:{{detail.credit.loanedQuota}}万元</span>
                   <span class='odd'>最近下款时间:{{detail.credit.loanedTime}}</span>
                 </div>
@@ -281,6 +281,7 @@
                 box-sizing:border-box;
                 height:40px;
                 line-height:40px;
+                text-align:center;
                 &:last-child{
                   width:230px;
                   div{

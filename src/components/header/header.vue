@@ -73,8 +73,8 @@
       </div>
       <div class="authed" v-if='isLogin' @mouseenter="showUser" @mouseleave="hideUser">
         <img src='./user.png'/><i></i>
-        <div class='sb' v-show="user"></div>
-        <div class="productCenter" v-show="user">
+        <div class='sb' v-show='user'></div>
+        <div class="productCenter" v-show='user'>
           <span class="triangle"></span>
           <ul>
             <li class="product-item">
@@ -355,9 +355,9 @@
             width: 270px;
             min-height: 200px;
             margin-left: -81px;
-            background: rgba(253, 252, 252, 0.75);
+            background: rgba(253, 252, 252, 0.95);
             box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.16);
-            opacity: 0.75;
+            opacity: 0.95;
             .product-item{
               font-size: 13px;
               padding-bottom: 33px;
@@ -426,9 +426,9 @@
             min-height: 200px;
             margin-top:20px;
             margin-left: -140px;
-            background: rgba(253, 252, 252, 0.75);
+            background: rgba(253, 252, 252, 0.95);
             box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.16);
-            opacity: 0.75;
+            opacity: 0.95;
             .triangle {
               width: 0;
               height: 0;

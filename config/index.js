@@ -13,6 +13,9 @@ module.exports = {
     proxyTable: {
       '/gateway/json': {
         target: 'http://192.168.100.27:8081', // 你接口的域名
+      },
+      '/fileController/**': {
+        target: 'http://192.168.100.102:8088', // 你接口的域名
         secure: false,
         changeOrigin: false,
       }

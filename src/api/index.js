@@ -1,9 +1,11 @@
 // 配置API接口地址
-/*var root = '';
+var root = '';
+var rootUrl='';
 var hostName = location.hostname;
 var tag = contain(hostName,'192.168')|| contain(hostName,'localhost')||contain(hostName,'127.0');
-root = root + (tag ? 'http://192.168.100.86:8081':location.host);*/
-var root = '/gateway/json';
+root = root + (tag ? 'http://192.168.100.27:8081':location.host);
+rootUrl='http://192.168.100.102:8088'; //文件服务
+root = root + '/gateway/json';
 // 引用axios
 var axios = require('axios')
 // 判断是否包含
@@ -35,6 +37,8 @@ function apiAxios (method, url, params, success, failure,headers) {
   if (params) {
     params = filterNull(params)
   }
+  console.log(root)
+  console.log(url)
   axios({
     method: method,
     url: url,
@@ -76,5 +80,8 @@ export default {
   },
   delete: function (url, params, success, failure,headers) {
     return apiAxios('DELETE', url, params, success, failure,headers)
+  },
+  getRootUrl:function (){
+  	return rootUrl;
   }
 }
