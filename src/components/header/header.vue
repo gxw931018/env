@@ -73,8 +73,8 @@
       </div>
       <div class="authed" v-if='isLogin' @mouseenter="showUser" @mouseleave="hideUser">
         <img src='./user.png'/><i></i>
-        <div class='sb' v-show='user'></div>
-        <div class="productCenter" v-show='user'>
+        <div class='sb'></div>
+        <div class="productCenter">
           <span class="triangle"></span>
           <ul>
             <li class="product-item">

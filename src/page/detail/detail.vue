@@ -15,7 +15,8 @@
       <div class="product" :style="product_two" v-if='!saveSuccess&&!applySuccess'>
         <div class="product-content">
           <div class="product-right-odd">
-            <img :src="logo" alt="" width="440" height="252">
+            <img :src="logo" alt="" width="440" height="252" class="aaaaa">
+           <!--	<img src="./product-logo-1.png" alt="" width="440" height="252">-->
           </div>
           <div class="product-left-odd">
             <div class="title">
@@ -298,6 +299,7 @@
           token:token
         },
         form:{
+          serialNum:'',
           productId:'',
           enterpriseName:enterpriseName,
           nsrsbh:nsrsbh,
@@ -489,7 +491,8 @@
           item.path = me.$util.imgURL.img + item.path;
         })
         this.featureList=res.labelPictureList;
-        this.logo = me.$util.imgURL.img + res.logo.path;
+       // this.logo = me.$util.imgURL.img + res.logo.path;
+        this.logo = sessionStorage.getItem('productLogo');
         this.product.name=res.name;
         this.product.provider=res.provider;
         this.product.indexTitle=res.indexTitle;
@@ -800,6 +803,7 @@
       this.getCurrentCity();
       this.getProductDetail();
       if(this.$route.query.serialNum && this.$route.query.serialNum!=''){
+        this.form.serialNum = this.$route.query.serialNum;
         let data ={
           "service":"applyService",
           "method":"getApplyInfo",

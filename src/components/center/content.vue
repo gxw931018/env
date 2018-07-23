@@ -104,7 +104,7 @@
 							<div class="mblicence clearfix">
 								<div class="mblicenceLeft" data-index="0">
 									<img src="./mblicenceIcon.png" v-if="handleFileList(1).length<=0" style="cursor: default;" />
-									<img v-bind:src="handleFileList(1)[0].url" :onerror="errormblicenceImg" v-if="handleFileList(1).length>0" @click="openImage($event,handleFileList(1)[0].url)" />
+									<img v-bind:src="handleFileList(1)[0].url"  v-if="handleFileList(1).length>0" @click="openImage($event,handleFileList(1)[0].url)" />
 									<div class="remove_icon" @click="removeFile(1,handleFileList(1)[0].id)" v-if="handleFileList(1).length>0"></div>
 								</div>
 								<div class="mblicenceRight">
@@ -181,7 +181,7 @@
 										</a>
 									</el-upload>
 									<div class="img_div" v-if="handleFileList(4).length>0" data-index="0">
-										<img v-bind:src="handleFileList(4)[0].url" v-if="handleFileList(4).length>0"  @click="openImage($event,handleFileList(4)[0].url)" />
+										<img v-bind:src="handleFileList(4)[0].url" v-if="handleFileList(4).length>0" @click="openImage($event,handleFileList(4)[0].url)" />
 									</div>
 
 									<div class="remove_icon" @click="removeFile(4,handleFileList(4)[0].id)" v-if="handleFileList(4).length>0"></div>
@@ -246,7 +246,7 @@
 									</el-upload>
 
 									<div class="img_div" v-if="handleFileList(7).length>0" data-index="0">
-										<img v-bind:src="handleFileList(7)[0].url" v-if="handleFileList(7).length>0"  @click="openImage($event,handleFileList(7)[0].url)" />
+										<img v-bind:src="handleFileList(7)[0].url" v-if="handleFileList(7).length>0" @click="openImage($event,handleFileList(7)[0].url)" />
 									</div>
 
 									<div class="remove_icon" @click="removeFile(7,handleFileList(7)[0].id)" v-if="handleFileList(7).length>0"></div>
@@ -266,7 +266,7 @@
 									</el-upload>
 
 									<div class="img_div" v-if="handleFileList(8).length>0" data-index="0">
-										<img v-bind:src="handleFileList(8)[0].url" v-if="handleFileList(8).length>0"  @click="openImage($event,handleFileList(8)[0].url)" />
+										<img v-bind:src="handleFileList(8)[0].url" v-if="handleFileList(8).length>0" @click="openImage($event,handleFileList(8)[0].url)" />
 									</div>
 
 									<div class="remove_icon" @click="removeFile(8,handleFileList(8)[0].id)" v-if="handleFileList(8).length>0"></div>
@@ -286,7 +286,7 @@
 									</el-upload>
 
 									<div class="img_div" v-if="handleFileList(9).length>0" data-index="0">
-										<img v-bind:src="handleFileList(9)[0].url" v-if="handleFileList(9).length>0"  @click="openImage($event,handleFileList(9)[0].url)"/>
+										<img v-bind:src="handleFileList(9)[0].url" v-if="handleFileList(9).length>0" @click="openImage($event,handleFileList(9)[0].url)" />
 									</div>
 
 									<div class="remove_icon" @click="removeFile(9,handleFileList(9)[0].id)" v-if="handleFileList(9).length>0"></div>
@@ -348,7 +348,35 @@
 			</div>
 
 			<div class="modifyPwd" v-show="modifyPwd">
-				I am modifyPwd
+				<div class="registerContainer">
+					<div class="register">
+						<div class="form">
+							<div class="item">
+								<input type="password" id='aaa' placeholder="请输入原密码" v-model="form.oldPassword" @focus='showNameTip' maxlength="20" :class='{errorinput:tips.oldErr}'>
+								<!--点击确认以后校验原密码输入对错    v-if="tips.oldErr"-->
+								<!--<span class="tip itemError">{{tips.oldPwdErr}}</span>-->
+							</div>
+							<div class="item">
+								<input type="password" placeholder="请输入新密码" @focus="showPwdTip" @input="pwdReplace($event)" @blur='checkPwd' @keyup='changeLevel($event)' maxlength="20" :class='{errorinput:tips.newPwdErr}'>
+								<span class="tip" v-if="tips.pwd">{{tips.password}}</span>
+								<span class="tip itemError" v-if="tips.newPwdErr">{{tips.passwordErr}}</span>
+								<ul>
+									<li :class="{low:pwdLevel=='low'}">低</li>
+									<li :class="{mid:pwdLevel=='mid'}">中</li>
+									<li :class="{high:pwdLevel=='high'}">高</li>
+								</ul>
+							</div>
+							<div class="item">
+								<input type="password" placeholder="再次确认密码" v-model='form.confirm_password' @focus='removeCpwdTip' maxlength="20" :class='{errorinput:tips.cpwd}'>
+								<span class="tip itemError" v-if='tips.cpwd'>{{tips.cpassword}}</span>
+							</div>
+							<div class="submit">
+								<!-- :disabled='reg'-->
+								<button @click="confirm">确  认</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<!--<iframe v-bind:src="xmlUrl" width="100%" v-bind:height="getHeight()" v-if="xmlUrl!=''"></iframe>-->
@@ -366,7 +394,7 @@
 	let Base64 = require('js-base64').Base64
 	let axios = require('axios')
 	export default {
-		props: ['info', 'authInfo', 'city', 'productList', 'choseCity'],
+		props: ['info', 'authInfo', 'city', 'productList', 'choseCity', 'submit'],
 		data() {
 			let baseUrl = 'http://asbv3.i-xinnuo.com/DataAcquisition/asb/bindTelASR';
 			let url = location.href.split('?')[0];
@@ -388,6 +416,28 @@
 				applyInfo = false;
 			}
 			return {
+				//密码修改
+				reg: true,
+				pwdLevel: '',
+				form: {
+					oldPassword: '',
+					password: '',
+					confirm_password: '',
+					checked: false
+				},
+				tips: {
+					oldErr: false,
+					newPwdErr: false,
+					cpwdErr: false,
+					name: false,
+					pwd: false,
+					cpwd: false,
+					vili: false,
+					oldPwdErr: "原密码输入错误，请重新输入",
+					password: "密码需由6-20位数字及字母组成",
+					passwordErr: "密码不能为空",
+					cpassword: '两次密码不一致,请重新输入'
+				},
 				first: false,
 				tip: '滚动加载更多',
 				showApplyDetail: false,
@@ -414,7 +464,7 @@
 						content: '申请资料',
 						active: applyInfo,
 						url: 'applyInfo',
-						class: 'dk'
+						class: 'apply'
 					},
 					{
 						content: '密码修改',
@@ -510,7 +560,19 @@
 				deleteUrl: this.$api.getRootUrl() + "/fileController/delete",
 				allFileList: [],
 				errormblicenceImg: 'this.src="' + require('./mblicenceIcon.png') + '"',
-				xmlUrl:""
+				xmlUrl: ""
+			}
+		},
+		watch: {
+			'form.checked': {
+				handler: function(val, oldval) {
+					if(val == true) {
+						this.reg = false;
+					} else {
+						this.reg = true;
+					}
+				},
+				deep: true //对象内部的属性监听，也叫深度监听
 			}
 		},
 		created() {
@@ -518,9 +580,139 @@
 			//this.getBaiduToken();
 		},
 		methods: {
-			 getHeight(){
-		    	return window.innerHeight;
-		    },
+			messageErr(str) {
+				this.$message({
+					message: str,
+					duration: 3000,
+					type: 'error'
+				});
+			},
+			checkPwd() {
+				this.tips.pwd = false;
+				if(!this.form.password) {
+					this.tips.newPwdErr = true;
+					this.tips.passwordErr = '密码不能为空';
+					return this.tips.newPwdErr;
+				}
+				this.tips.passwordErr = '密码不符合要求，请重新设置';
+				this.tips.newPwdErr = !this.$util.vili.password(this.form.password);
+				return this.tips.newPwdErr;
+			},
+			checkCpwd() {
+				if(!this.form.confirm_password) {
+					this.tips.cpwd = true;
+					this.tips.cpassword = '密码不能为空';
+					return this.tips.cpwd;
+				}
+				this.tips.cpassword = '两次密码不一致,请重新输入';
+				this.tips.cpwd = !(this.form.password === this.form.confirm_password);
+				return this.tips.cpwd;
+			},
+			showNameTip() {
+				this.tips.name = true;
+				this.tips.oldErr = false;
+				this.tips.oldPwdErr = "原密码输入错误，请重新输入";
+				this.tips.password = "密码需由6-20位数字及字母组成";
+			},
+			showPwdTip() {
+				this.tips.password = '密码需由6-20位数字及字母组成';
+				this.tips.pwd = true;
+				this.tips.newPwdErr = false;
+			},
+			pwdReplace($event) {
+				let dom = $event.target;
+				this.replaceAndSetPos(dom, /[\W]/g, '');
+				this.form.password = dom.value;
+			},
+			changeLevel($event) {
+				this.pwdReplace($event);
+				let len = this.form.password.length;
+				if(len > 20) {
+					this.form.password = this.form.password.substring(0, 20);
+				}
+				let str = this.form.password;
+				if(str.length < 6) {
+					this.pwdLevel = '';
+					return;
+				}
+				let d = /\d/.test(str);
+				let A = /[A-Z]/.test(str);
+				let a = /[a-z]/.test(str);
+				if(str.length > 11) {
+					if(a && A && d) {
+						this.pwdLevel = 'high';
+					} else if(d && (a || A)) {
+						this.pwdLevel = 'mid';
+					} else {
+						this.pwdLevel = '';
+					}
+					return;
+				}
+				if(a && A && d) {
+					this.pwdLevel = 'mid';
+				} else if(d && (a || A)) {
+					this.pwdLevel = 'low';
+				} else {
+					this.pwdLevel = '';
+				}
+			},
+			removeNameTip() {
+				this.tips.name = false;
+			},
+			removePwdTip() {
+				this.tips.newPwdErr = false;
+			},
+			removeCpwdTip() {
+				this.tips.cpwd = false;
+			},
+			confirm() {
+				if(this.tips.oldErr + this.tips.newPwdErr + this.tips.cpwdErr) { //+this.tips.viliErr
+					return;
+				}
+				let err = this.checkPwd() + this.checkCpwd(); //this.checkName()+
+				if(err) {
+					return;
+				}
+				if(this.checkPwdLevel()) {
+					return;
+				}
+				let data = {
+					"data": {
+						"oldPwd": this.form.oldPassword,
+						"newPwd": this.form.confirm_password
+					}
+				};
+				data.service = "generalService";
+				data.method = "modifyPassword";
+				this.reg = true;
+				this.$api.post('', data, this.registerSuc, this.registerErr, this.headers);
+			},
+			registerSuc(data) {
+				this.reg = false;
+				this.$alert('请重新登录', '密码修改成功', {
+					confirmButtonText: '确定',
+					callback: action => {
+						this.$router.push({
+							name: 'login'
+						});
+					}
+				});
+			},
+			registerErr(res) {
+				this.reg = false;
+				this.messageErr(res.returnMessage);
+			},
+			checkPwdLevel() {
+				if(!this.pwdLevel) {
+					this.tips.password = "密码不符合安全规则";
+					this.tips.newPwdErr = true;
+					return true;
+				}
+			},
+
+			getHeight() {
+				return window.innerHeight;
+			},
 			handleFileList(fileType) {
 				//获取上传文件
 				var that = this;
@@ -672,7 +864,8 @@
 			showDetail(data) {
 				let code = data.apply.statusCode;
 				this.detail.status = code;
-				let active = 0,process='wait';
+				let active = 0,
+					process = 'wait';
 				switch(code) {
 					case 1:
 						active = 1;
@@ -687,14 +880,14 @@
 						break;
 					case 5:
 						active = 2;
-						process='error';
+						process = 'error';
 						break;
 					case 6:
 						active = 1;
 						break;
 					case 7:
 						active = 3;
-						process='error';
+						process = 'error';
 						break;
 					case 8:
 						active = 3;
@@ -704,7 +897,7 @@
 						break;
 					case 10:
 						active = 3;
-						process='error';
+						process = 'error';
 						break;
 					default:
 						break;
@@ -740,7 +933,7 @@
 				this.$api.post('', history, this.getHistorySuc, this.getHistoryErr, this.headers);
 				this.$api.post('', base, this.getBaseSuc, this.getBaseErr, this.headers)
 				this.showApplyDetail = true;
-				if(process === 'error'){
+				if(process === 'error') {
 					let timer = setInterval(function() {
 						let step = document.getElementsByClassName('el-step__head');
 						let suc = document.getElementsByClassName('el-step__head is-success');
@@ -767,7 +960,7 @@
 			},
 			getCreditSuc(data) {
 				data.creditTime = this.$util.timeFormat(data.creditTime);
-				data.loanedTime = this.$util.timeFormat(data.loanedTime,'day');
+				data.loanedTime = this.$util.timeFormat(data.loanedTime, 'day');
 				this.detail.credit = data;
 			},
 			getCreditErr(res) {
@@ -779,7 +972,9 @@
 			},
 			getHistorySuc(data) {
 				let me = this;
-				data.map((item,k)=>{item.handleTime = me.$util.timeFormat(item.handleTime)});
+				data.map((item, k) => {
+					item.handleTime = me.$util.timeFormat(item.handleTime)
+				});
 				this.detail.trackData = data;
 			},
 			getHistoryErr(res) {
@@ -790,11 +985,11 @@
 				console.log(res);
 			},
 			getBaseSuc(data) {
-				data.apply.applyTime = this.$util.timeFormat(data.apply.applyTime,'min');
+				data.apply.applyTime = this.$util.timeFormat(data.apply.applyTime, 'min');
 				data.apply.sxTime = this.$util.timeFormat(data.apply.sxTime);
 				data.apply.sendToBankTime = this.$util.timeFormat(data.apply.sendToBankTime);
 				data.apply.proposerType = this.type[data.apply.proposerType];
-				let arr = data.productProfile.guarantee.split(',');
+				let arr = data.product.guarantee.split(',');
 				let str = '';
 				let l = arr.length;
 				let me = this;
@@ -804,9 +999,9 @@
 						str += '、';
 					}
 				});
-				data.productProfile.guarantee = str;
+				data.product.guarantee = str;
 				this.detail.apply = data.apply;
-				this.detail.productProfile = data.productProfile;
+				this.detail.productProfile = data.product;
 			},
 			getBaseErr(res) {
 				if(this.$util.goLogin(res.returnCode)) {
@@ -925,7 +1120,9 @@
 				fd.append('uploadFile', file);
 				fd.append('parentName', that.authInfo.qymc);
 				fd.append('fileType', type);
-				let loadingInstance1 = Loading.service({ fullscreen: true });
+				let loadingInstance1 = Loading.service({
+					fullscreen: true
+				});
 				that.fileInter(fd).then(res => {
 					console.log(res)
 					let data = res.data;
@@ -943,12 +1140,12 @@
 						loadingInstance1.close();
 					} else {
 						loadingInstance1.close();
-						if(data.returnCode === "6000002"){
+						if(data.returnCode === "6000002") {
 							this.$message({
 								message: data.returnMessage,
 								type: 'warning'
 							});
-						}else{
+						} else {
 							this.$message({
 								message: data.returnMessage,
 								type: 'warning'
@@ -1027,16 +1224,21 @@
 					fancyBox(e.target, imagList);
 				};
 			},
-			previewFile(file){
-				var that=this;
-				var url=that.downloadUrl + "?fileId=" + file.id;
-				var fileName=file.name;
-				if(fileName.indexOf(".pdf")!=-1||fileName.indexOf(".PDF")!=-1){
-					this.$router.push({ name: 'pdf', query: { url: Base64.encode(url) } })
-				}else{
+			previewFile(file) {
+				var that = this;
+				var url = that.downloadUrl + "?fileId=" + file.id;
+				var fileName = file.name;
+				if(fileName.indexOf(".pdf") != -1 || fileName.indexOf(".PDF") != -1) {
+					this.$router.push({
+						name: 'pdf',
+						query: {
+							url: Base64.encode(url)
+						}
+					})
+				} else {
 					console.log(file.name)
-					 window.open(url)
-				    //this.$router.push({ name: 'viewer', query: { url:"https://view.officeapps.live.com/op/view.aspx?src=http://storage.xuetangx.com/public_assets/xuetangx/PDF/1.xls" } })
+					window.open(url)
+					//this.$router.push({ name: 'viewer', query: { url:"https://view.officeapps.live.com/op/view.aspx?src=http://storage.xuetangx.com/public_assets/xuetangx/PDF/1.xls" } })
 				}
 
 			}
@@ -1048,8 +1250,43 @@
 		},
 	}
 </script>
-
+<style lang="less" src="@/common/less/setPwd/setPwd.less"></style>
 <style lang='less'>
+	.el-message-box__headerbtn .el-message-box__close:hover {
+		color: #f0871e !important;
+	}
+	
+	.el-message-box__title {
+		text-align: center;
+	}
+	
+	.el-message-box__btns {
+		text-align: center;
+	}
+	
+	.el-message-box__message {
+		max-height: 500px;
+		overflow-y: auto;
+	}
+	
+	.el-checkbox__input.is-checked .el-checkbox__inner,
+	.el-checkbox__input.is-indeterminate .el-checkbox__inner {
+		background-color: #f0871e !important;
+		border-color: #f0871e !important;
+	}
+	
+	.el-checkbox__inner {
+		border-color: #f0871e !important;
+	}
+	
+	.el-checkbox__inner:hover {
+		border-color: #f0871e !important;
+	}
+	
+	.el-checkbox__inner:focus {
+		border-color: #f0871e !important;
+	}
+	
 	.clearfix:after {
 		content: ".";
 		display: block;
@@ -1057,11 +1294,23 @@
 		clear: both;
 		visibility: hidden;
 	}
-
+	
 	.clearfix {
 		display: block;
 	}
-
+	
+	.icon-apply:before {
+		content: "";
+		width: 16px;
+		height: 13px;
+		background-image: url("./upload.png");
+		background-repeat: no-repeat;
+		background-size: 16px 13px;
+		display: inline-block;
+		vertical-align: middle;
+	}
+	
+	
 	.contentContainer {
 		width: 100%;
 		margin-top: 80px;
@@ -1147,6 +1396,11 @@
 								border-left: 2px solid #f0871e;
 								i {
 									left: 18px;
+								}
+								
+								.icon-apply:before {
+									content: "";
+									background-image: url("./upload-active.png");
 								}
 							}
 						}
@@ -1274,10 +1528,10 @@
 								margin-left: 140px;
 							}
 							&.sec {
-								width:120px;
-								text-align:center;
+								width: 120px;
+								text-align: center;
 								margin-right: 100px;
-								float:right;
+								float: right;
 							}
 							&.operation {
 								float: right;
@@ -1345,11 +1599,11 @@
 										&.ed {
 											margin-right: 40px;
 										}
-										&.status{
-											float:right;
-											width:120px;
-											margin-right:100px;
-											text-align:center;
+										&.status {
+											float: right;
+											width: 120px;
+											margin-right: 100px;
+											text-align: center;
 										}
 										&.operation {
 											float: right;
