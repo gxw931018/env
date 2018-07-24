@@ -73,8 +73,8 @@
       </div>
       <div class="authed" v-if='isLogin' @mouseenter="showUser" @mouseleave="hideUser">
         <img src='./user.png'/><i></i>
-        <div class='sb'></div>
-        <div class="productCenter">
+        <div class='sb' v-show='user'></div>
+        <div class="productCenter" v-show='user'>
           <span class="triangle"></span>
           <ul>
             <li class="product-item">
@@ -252,7 +252,6 @@
   }
   .header {
     position: fixed;
-    overflow: hidden;
     color: #333;
     background: rgba(255, 255, 255, 0.75);
     box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.16);

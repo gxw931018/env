@@ -959,8 +959,11 @@
 				}
 			},
 			getCreditSuc(data) {
-				data.creditTime = this.$util.timeFormat(data.creditTime);
-				data.loanedTime = this.$util.timeFormat(data.loanedTime, 'day');
+				/*data.creditTime = this.$util.timeFormat(data.creditTime);
+				data.loanedTime = this.$util.timeFormat(data.loanedTime, 'day');*/
+				
+				data.creditTime = data.creditTime?this.$util.formatDate(data.creditTime,"yyyy-MM-dd hh:mm"):"-";
+				data.loanedTime = data.loanedTime?this.$util.formatDate(data.loanedTime, "yyyy-MM-dd"):"-";
 				this.detail.credit = data;
 			},
 			getCreditErr(res) {
@@ -973,7 +976,9 @@
 			getHistorySuc(data) {
 				let me = this;
 				data.map((item, k) => {
-					item.handleTime = me.$util.timeFormat(item.handleTime)
+					//item.handleTime = me.$util.timeFormat(item.handleTime)
+					item.handleTime = item.handleTime?me.$util.formatDate(item.handleTime,"yyyy-MM-dd hh:mm"):"-"
+					
 				});
 				this.detail.trackData = data;
 			},
@@ -985,9 +990,12 @@
 				console.log(res);
 			},
 			getBaseSuc(data) {
-				data.apply.applyTime = this.$util.timeFormat(data.apply.applyTime, 'min');
+				/*data.apply.applyTime = this.$util.timeFormat(data.apply.applyTime, 'min');
 				data.apply.sxTime = this.$util.timeFormat(data.apply.sxTime);
-				data.apply.sendToBankTime = this.$util.timeFormat(data.apply.sendToBankTime);
+				data.apply.sendToBankTime = this.$util.timeFormat(data.apply.sendToBankTime);*/
+				data.apply.applyTime =data.apply.applyTime? this.$util.formatDate(data.apply.applyTime, 'yyyy-MM-dd hh:mm'):"-";
+				data.apply.sxTime = data.apply.sxTime?this.$util.formatDate(data.apply.sxTime,'yyyy-MM-dd hh:mm'):"-";
+				data.apply.sendToBankTime = data.apply.sendToBankTime?this.$util.formatDate(data.apply.sendToBankTime,'yyyy-MM-dd hh:mm'):"-";
 				data.apply.proposerType = this.type[data.apply.proposerType];
 				let arr = data.product.guarantee.split(',');
 				let str = '';
