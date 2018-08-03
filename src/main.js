@@ -16,7 +16,6 @@ const detail = () => import('./page/detail/detail.vue')
 const center = () => import('./page/center.vue')
 /*import home from './page/home/home.vue'
 import login from './page/login/login.vue'
-import register from './page/register/register.vue'
 import resetPwd from './page/resetPwd/resetPwd.vue'
 import pwdsuc from './page/pwdsuc/pwdsuc.vue'*/
 import util from './common/js/index.js'
