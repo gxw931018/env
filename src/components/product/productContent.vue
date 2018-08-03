@@ -5,9 +5,9 @@
           <span>产品说明</span>
         </div>
         <el-tabs v-model="activeName">
-          <el-tab-pane label="产品详情" name="1">{{xy.detail}}</el-tab-pane>
-          <el-tab-pane label="申请材料" name="2">{{xy.applyNeed}}</el-tab-pane>
-          <el-tab-pane label="贷款协议" name="3">{{xy.loadAgreement}}</el-tab-pane>
+          <el-tab-pane label="产品详情" name="1" v-html="xy.detail"></el-tab-pane>
+          <el-tab-pane label="申请材料" name="2" v-html="xy.applyNeed"></el-tab-pane>
+          <el-tab-pane label="贷款协议" name="3" v-html="xy.loadAgreement"></el-tab-pane>
         </el-tabs>
       </div>
     </div>

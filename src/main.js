@@ -14,10 +14,14 @@ const resetPwd = () => import('./page/resetPwd/resetPwd.vue')
 const pwdsuc = () => import('./page/pwdsuc/pwdsuc.vue')
 const detail = () => import('./page/detail/detail.vue')
 const center = () => import('./page/center.vue')
+const pdf = () => import('./page/PDF.vue')
+const viewer = () => import('./page/viewer.vue')
 /*import home from './page/home/home.vue'
 import login from './page/login/login.vue'
 import resetPwd from './page/resetPwd/resetPwd.vue'
-import pwdsuc from './page/pwdsuc/pwdsuc.vue'*/
+import pwdsuc from './page/pwdsuc/pwdsuc.vue'
+import detail from './page/detail/detail.vue'
+import center from './page/center.vue'*/
 import util from './common/js/index.js'
 import vuescroll from 'vue-scroll'
 import 'babel-polyfill'
@@ -138,6 +142,14 @@ const routes = [
     path: '/center',
     name: 'center',
     component: center
+  },{
+    path: '/pdf',
+    name: 'pdf',
+    component: pdf
+  },{
+    path: '/viewer',
+    name: 'viewer',
+    component: viewer
   }
 ];
 

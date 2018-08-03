@@ -266,7 +266,7 @@
       //product
       productSuc(data) {
         data.imgURL = this.$util.imgURL.img;
-
+        var recommendList=[];
         data.map((res, i) =>{
           let str2='';
           let openedCity=res.openCity;
@@ -278,8 +278,12 @@
             }
           });
           res.oc = str2;
+          
+          if(res.isRecommend){
+          	recommendList.push(res);
+          }
         });
-        this.productList = data;
+        this.productList = recommendList;
       },
       productErr(data) {
         console.log(data);
